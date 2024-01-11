@@ -51,6 +51,8 @@ export class ConesOfDunshire {
           return this.handleAlchemist(character);
         case Role.LEDGERMAN:
           return this.handleLedgerman(character);
+        case Role.FARMER:
+          return this.handleFarmer(character);
         default:
           return this.handleOther(character);
       }
@@ -89,6 +91,22 @@ export class ConesOfDunshire {
   }
 
   private handleLedgerman(character: Character): Character {
+    return character;
+  }
+
+  private handleFarmer(character: Character): Character {
+    if (character.health > 0) {
+      character.health = character.health - 2;
+    }
+    if (character.strength > 0) {
+      character.strength = character.strength - 1;
+    }
+    if (character.health <= 5 && character.strength > 0) {
+      character.strength = character.strength - 1;
+    }
+    if (character.health <= 0) {
+      character.strength = 20;
+    }
     return character;
   }
 

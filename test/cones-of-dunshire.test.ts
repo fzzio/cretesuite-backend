@@ -391,7 +391,7 @@ describe('ConesOfDunshire', () => {
     })
   })
 
-  describe.skip('Given the "Farmer" takes a turn', () => {
+  describe('Given the "Farmer" takes a turn', () => {
     beforeAll(() => {
       role = 'Farmer'
     })
