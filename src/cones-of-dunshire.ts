@@ -1,3 +1,4 @@
+import { Role } from './utils/role';
 export class Character {
   role: string;
   health: number;
@@ -42,45 +43,82 @@ export class ConesOfDunshire {
   }
 
   takeTurn() {
-    for (let i = 0; i < this.characters.length; i++) {
-      if (this.characters[i].role != 'Maverick') {
-        if (this.characters[i].role != 'Alchemist') {
-          if (this.characters[i].strength > 0) {
-            if (this.characters[i].role != 'Ledgerman') {
-              this.characters[i].strength = this.characters[i].strength - 1
-            }
-          }
-        } else {
-          if (this.characters[i].strength < 11) {
-            this.characters[i].strength = this.characters[i].strength + 1
-          }
-        }
-      } else {
-        if (this.characters[i].strength < 40) {
-          if (this.characters[i].health < 6) {
-            this.characters[i].strength = this.characters[i].strength + 1
-          }
-          if (this.characters[i].health < 11) {
-            this.characters[i].strength = this.characters[i].strength + 1
-          }
-        }
+    return this.characters.map(character => {
+      switch (character.role) {
+        case Role.MAVERICK:
+          return this.handleMaverick(character);
+        case Role.ALCHEMIST:
+          return this.handleAlchemist(character);
+        case Role.LEDGERMAN:
+          return this.handleLedgerman(character);
+        case Role.FARMER:
+          return this.handleFarmer(character);
+        default:
+          return this.handleOther(character);
       }
-      if (this.characters[i].role != 'Ledgerman') {
-        if (this.characters[i].health > 0) {
-          this.characters[i].health = this.characters[i].health - 1;
-        }
+    });
+  }
+
+  private handleMaverick(character: Character): Character {
+    if (character.strength < 40) {
+      if (character.health < 6) {
+        character.strength = character.strength + 1
       }
-      if (this.characters[i].role == 'Alchemist') {
-        if (this.characters[i].strength < 20) {
-          if (this.characters[i].health < 6) {
-            this.characters[i].strength = this.characters[i].strength - this.characters[i].strength
-          }
-        }
-      }
-      if (this.characters[i].role === 'Alchemist') {
-        this.characters[i].vilesAvailable = Math.ceil(this.characters[i].strength / 2)
+      if (character.health < 11) {
+        character.strength = character.strength + 1
       }
     }
-    return this.characters;
+    if (character.health > 0) {
+      character.health = character.health - 1;
+    }
+    return character;
+  }
+
+  private handleAlchemist(character: Character): Character {
+    if (character.strength < 20) {
+      if (character.strength < 11) {
+        character.strength = character.strength + 1
+      }
+      if (character.health > 0) {
+        character.health = character.health - 1;
+      }
+      if (character.health < 6) {
+        character.strength = character.strength - character.strength
+      }
+    }
+    character.vilesAvailable = Math.ceil(character.strength / 2)
+    return character;
+  }
+
+  private handleLedgerman(character: Character): Character {
+    return character;
+  }
+
+  private handleFarmer(character: Character): Character {
+    if (character.health > 0) {
+      character.health = character.health - 2;
+    }
+    if (character.strength > 0) {
+      character.strength = character.strength - 1;
+    }
+    if (character.health <= 5 && character.strength > 0) {
+      character.strength = character.strength - 1;
+    }
+    if (character.health <= 0) {
+      character.strength = 20;
+    }
+    return character;
+  }
+
+  private handleOther(character: Character): Character {
+    if (character.strength > 0) {
+      character.strength = character.strength - 1
+    }
+
+    if (character.health > 0) {
+      character.health = character.health - 1;
+    }
+
+    return character;
   }
 }
