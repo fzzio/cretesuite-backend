@@ -1,6 +1,6 @@
-# CreteSuite take home assessment
+Home assessment
 
-This is a take home assessment for the interview process at CreteSuite.
+This is a take home assessment for the interviews.
 
 ![](https://relevantmagazine.com/wp-content/uploads/2017/06/Screen-Shot-2015-01-16-at-8.57.34-AM.png)
 
